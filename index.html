@@ -352,8 +352,8 @@
                     <input type="text" id="userContact" name="userContact" required placeholder="(DD) 99999-9999" maxlength="15">
                 </div>
                 <div class="input-group">
-                    <label for="communicatedTo">Quem foi comunicado aos responsáveis? <span style="color: #dc3545;">*</span></label>
-                    <input type="text" id="communicatedTo" name="communicatedTo" required placeholder="Digite o nome de quem você avisou">
+                    <label for="communicatedTo">Qual organizador do bloco foi comunicado?</label>
+                    <input type="text" id="communicatedTo" name="communicatedTo" placeholder="Digite o nome de quem você avisou">
                 </div>
             </div>
 
@@ -529,12 +529,6 @@
                 return;
             }
 
-            if (!communicatedTo.trim()) {
-                selectedInfo.innerHTML = '⚠️ Por favor, informe quem foi comunicado aos responsáveis.';
-                selectedInfo.classList.add('show');
-                return;
-            }
-
             // Validação simples: verifica se todos têm tamanho selecionado
             const allSelected = Array.from(personCards).every(card => card.querySelector('input[type="radio"]:checked'));
             
@@ -546,7 +540,7 @@
             
             // CONFIGURAÇÃO: Coloque aqui o número que receberá os pedidos
             // Formato: 55 + DDD + Número (Ex: 5511999999999)
-            const numeroDestino = "5575999111531"; 
+            const numeroDestino = "5575982102551"; 
             
             // Monta a lista de pedidos
             let listaPedidos = '';
