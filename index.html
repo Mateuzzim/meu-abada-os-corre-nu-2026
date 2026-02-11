@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seleção de Tamanho - Abadá</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Segoe UI', sans-serif;
+            scrollbar-width: thin;
+            scrollbar-color: #009DDC #FFD90F;
+        }
+
+        /* Barra de rolagem futurista */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #FFD90F;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #009DDC;
+            border-radius: 6px;
+            border: 2px solid #000;
+            background-clip: content-box;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #F56FA1;
+            background-clip: content-box;
+        }
+
+        body {
+            background-color: #FFD90F;
+            background-image: radial-gradient(#fff 10%, transparent 10%), radial-gradient(#fff 10%, transparent 10%);
+            background-size: 50px 50px;
+            background-position: 0 0, 25px 25px;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            min-height: 100vh;
+            height: auto;
+            zoom: 80%;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            border: 4px solid #000;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.8);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #FFD90F;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .sizes {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .size-option {
+            position: relative;
+        }
+
+        .size-option input[type="radio"] {
+            display: none;
+        }
+
+        .size-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 5px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .size-label:hover {
+            background: #FFD90F;
+            transform: translate(-2px, -2px);
+            box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+        }
+
+        .size-option input[type="radio"]:checked + .size-label {
+            background: #009DDC;
+            border-color: #000;
+            color: white;
+        }
+
+        .size-option input[type="radio"]:checked + .size-label .size-name,
+        .size-option input[type="radio"]:checked + .size-label .measurement {
+            color: white;
+        }
+
+        .size-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 0;
+        }
+
+        .measurement {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .input-group label {
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .input-group input {
+            padding: 12px;
+            border: 2px solid #000;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+            background: #f9f9f9;
+            text-transform: uppercase;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #009DDC;
+            background: #fff;
+            box-shadow: 4px 4px 0px #FFD90F;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: #009DDC;
+            color: white;
+            border: 3px solid #000;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 5px 5px 0px #000;
+            transition: all 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 7px 7px 0px #000;
+            background: #008ac2;
+        }
+
+        .selected-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 8px;
+            color: #333;
+            text-align: center;
+            display: none;
+            box-shadow: 4px 4px 0px #FFD90F;
+        }
+
+        .selected-info.show {
+            display: block;
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .sizes {
+                grid-template-columns: repeat(6, 1fr);
+                gap: 2px;
+            }
+            
+            .guide-table {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .personal-data {
+            margin-bottom: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .person-card {
+            background: #fff;
+            border: 2px solid #000;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            box-shadow: 6px 6px 0px #FFD90F;
+        }
+
+        .person-title {
+            font-size: 18px;
+            color: #009DDC;
+            margin-bottom: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+        }
+
+        .person-title::before {
+            content: '';
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .add-btn {
+            background: transparent;
+            border: 3px dashed #000;
+            color: #333;
+            margin-bottom: 20px;
+            box-shadow: none;
+        }
+
+        .add-btn:hover {
+            background: #FFD90F;
+            color: #000;
+            transform: translateY(-2px);
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #F56FA1;
+            border: 2px solid #000;
+            padding: 4px 10px;
+            font-size: 12px;
+            width: auto;
+            border-radius: 20px;
+            box-shadow: 2px 2px 0px #000;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Estilos do Modal de Acesso */
+        .access-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            backdrop-filter: blur(8px);
+        }
+
+        .access-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+            border: 4px solid #000;
+            box-shadow: 10px 10px 0px #FFD90F;
+        }
+
+        .access-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .homer-img {
+            display: block;
+            margin: 0 auto 10px;
+            max-width: 100px;
+            animation: jumpIn 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+        }
+
+        @keyframes jumpIn {
+            0% { transform: translateY(100px) scale(0); opacity: 0; }
+            60% { transform: translateY(-20px) scale(1.1); opacity: 1; }
+            80% { transform: translateY(10px) scale(0.9); }
+            100% { transform: translateY(0) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Modal de Verificação Inicial -->
+    <div id="accessModal" class="access-modal">
+        <div class="access-content">
+            <h2>🔒 Área Restrita</h2>
+            <p style="margin: 15px 0 25px; color: #666; font-size: 16px;">Para acessar o formulário de pedidos, confirme se você já foi oficialmente aceito no <strong>Bloco Os Corre Nu</strong>.</p>
+            <div class="access-buttons">
+                <button id="btnNo" class="submit-btn" style="background: #F56FA1; width: auto; padding: 12px 25px;">Não fui</button>
+                <button id="btnYes" class="submit-btn" style="background: #009DDC; width: auto; padding: 12px 25px;">Sim, fui aceito</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png" alt="Homer Simpson" class="homer-img">
+        <h1>Abadá Os Corre Nu 2026</h1>
+        <p class="subtitle">Selecione o tamanho perfeito para você</p>
+
+        <form id="sizeForm" novalidate>
+            <div class="personal-data">
+                <div class="input-group">
+                    <label for="mainResponsible">Responsável Principal <span style="color: #dc3545;">*</span></label>
+                    <input type="text" id="mainResponsible" name="mainResponsible" required placeholder="Nome do responsável">
+                </div>
+                <div class="input-group">
+                    <label for="userContact">Contato (WhatsApp) <span style="color: #dc3545;">*</span></label>
+                    <input type="text" id="userContact" name="userContact" required placeholder="(DD) 99999-9999" maxlength="15">
+                </div>
+                <div class="input-group">
+                    <label for="communicatedTo">Quem foi comunicado aos responsáveis? <span style="color: #dc3545;">*</span></label>
+                    <input type="text" id="communicatedTo" name="communicatedTo" required placeholder="Digite o nome de quem você avisou">
+                </div>
+            </div>
+
+            <div id="peopleContainer">
+                <!-- Pessoa 1 (Padrão) -->
+                <div class="person-card" data-index="0">
+                    <div class="person-title">ABADÁ 1</div>
+                    <div class="input-group" style="margin-bottom: 20px;">
+                        <label>Nome da Pessoa</label>
+                        <input type="text" class="name-input" required placeholder="Nome de quem vai usar">
+                    </div>
+
+                    <div class="sizes">
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeP_0" value="P">
+                            <label for="sizeP_0" class="size-label">
+                                <span class="size-name">P</span>
+                            </label>
+                        </div>
+
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeM_0" value="M">
+                            <label for="sizeM_0" class="size-label">
+                                <span class="size-name">M</span>
+                            </label>
+                        </div>
+
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeG_0" value="G">
+                            <label for="sizeG_0" class="size-label">
+                                <span class="size-name">G</span>
+                            </label>
+                        </div>
+
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeGG_0" value="GG">
+                            <label for="sizeGG_0" class="size-label">
+                                <span class="size-name">GG</span>
+                            </label>
+                        </div>
+
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeXG_0" value="XG">
+                            <label for="sizeXG_0" class="size-label">
+                                <span class="size-name">XG</span>
+                            </label>
+                        </div>
+
+                        <div class="size-option">
+                            <input type="radio" name="size_0" id="sizeXXG_0" value="XXG">
+                            <label for="sizeXXG_0" class="size-label">
+                                <span class="size-name">XXG</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button" id="addPersonBtn" class="submit-btn add-btn">+ Adicionar outra pessoa</button>
+            
+            <button type="submit" class="submit-btn">Confirmar Seleção</button>
+        </form>
+
+        <div id="selectedInfo" class="selected-info">
+            <!-- Informações selecionadas serão exibidas aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Lógica do Modal de Acesso
+        document.getElementById('btnYes').addEventListener('click', function() {
+            document.getElementById('accessModal').style.display = 'none';
+        });
+
+        document.getElementById('btnNo').addEventListener('click', function() {
+            alert('🚫 Apenas membros aceitos podem realizar pedidos.\n\nPor favor, entre em contato com a organização para regularizar sua situação.');
+            // Opcional: Redirecionar para o Instagram do bloco se desejar
+            // window.location.href = 'https://instagram.com/seu_bloco';
+        });
+
+        // Máscara de telefone para formatar automaticamente
+        document.getElementById('userContact').addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+
+            if (value.length > 10) {
+                // Formato Celular: (11) 91234-5678
+                value = value.replace(/^(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+            } else if (value.length > 5) {
+                // Formato Fixo ou digitando: (11) 1234-5678
+                value = value.replace(/^(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+            } else if (value.length > 2) {
+                // Apenas DDD: (11) 12345
+                value = value.replace(/^(\d{2})(\d{0,5})/, '($1) $2');
+            } else if (value.length > 0) {
+                value = value.replace(/^(\d*)/, '($1');
+            }
+            
+            e.target.value = value;
+        });
+
+        // Lógica para adicionar novas pessoas
+        let personCount = 1;
+        
+        document.getElementById('addPersonBtn').addEventListener('click', function() {
+            const container = document.getElementById('peopleContainer');
+            const firstCard = container.querySelector('.person-card');
+            
+            // Clona o primeiro cartão
+            const newCard = firstCard.cloneNode(true);
+            const newIndex = personCount;
+            
+            // Atualiza título
+            newCard.querySelector('.person-title').textContent = `ABADÁ ${newIndex + 1}`;
+            newCard.setAttribute('data-index', newIndex);
+            
+            // Limpa o input de nome
+            newCard.querySelector('.name-input').value = '';
+            
+            // Atualiza os IDs e Names dos Radio Buttons para serem únicos
+            const radios = newCard.querySelectorAll('input[type="radio"]');
+            
+            radios.forEach((radio) => {
+                const oldId = radio.id.split('_')[0]; // Pega 'sizeP'
+                const newId = `${oldId}_${newIndex}`;
+                
+                radio.id = newId;
+                radio.name = `size_${newIndex}`;
+                radio.checked = false;
+                
+                // Atualiza o label correspondente (o label é o próximo elemento após o input)
+                const label = radio.nextElementSibling;
+                if (label && label.tagName === 'LABEL') {
+                    label.setAttribute('for', newId);
+                }
+            });
+
+            // Adiciona botão de remover
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'submit-btn remove-btn';
+            removeBtn.textContent = 'Remover';
+            removeBtn.onclick = function() {
+                newCard.remove();
+            };
+            newCard.appendChild(removeBtn);
+            
+            container.appendChild(newCard);
+            personCount++;
+        });
+
+        document.getElementById('sizeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const mainResponsible = document.getElementById('mainResponsible').value.toUpperCase();
+            const userContact = document.getElementById('userContact').value;
+            const communicatedTo = document.getElementById('communicatedTo').value.toUpperCase();
+            const terms = document.getElementById('terms');
+            const selectedInfo = document.getElementById('selectedInfo');
+
+            const personCards = document.querySelectorAll('.person-card');
+            
+            // Validação dos campos obrigatórios
+            if (!mainResponsible.trim()) {
+                selectedInfo.innerHTML = '⚠️ Por favor, preencha o nome do Responsável Principal.';
+                selectedInfo.classList.add('show');
+                return;
+            }
+
+            if (!userContact.trim()) {
+                selectedInfo.innerHTML = '⚠️ Por favor, preencha o Contato (WhatsApp).';
+                selectedInfo.classList.add('show');
+                return;
+            }
+
+            if (!communicatedTo.trim()) {
+                selectedInfo.innerHTML = '⚠️ Por favor, informe quem foi comunicado aos responsáveis.';
+                selectedInfo.classList.add('show');
+                return;
+            }
+
+            // Validação simples: verifica se todos têm tamanho selecionado
+            const allSelected = Array.from(personCards).every(card => card.querySelector('input[type="radio"]:checked'));
+            
+            if (!allSelected) {
+                selectedInfo.innerHTML = '⚠️ Por favor, selecione o tamanho para todas as pessoas.';
+                selectedInfo.classList.add('show');
+                return;
+            }
+            
+            // CONFIGURAÇÃO: Coloque aqui o número que receberá os pedidos
+            // Formato: 55 + DDD + Número (Ex: 5511999999999)
+            const numeroDestino = "5575999111531"; 
+            
+            // Monta a lista de pedidos
+            let listaPedidos = '';
+            const totais = {};
+
+            personCards.forEach((card, index) => {
+                const nome = card.querySelector('.name-input').value.toUpperCase();
+                const tamanho = card.querySelector('input[type="radio"]:checked').value;
+                
+                listaPedidos += ` *${index + 1}. ${nome}* - Tamanho: ${tamanho}\n`;
+                
+                // Contabiliza os tamanhos para o resumo
+                totais[tamanho] = (totais[tamanho] || 0) + 1;
+            });
+
+            // Cria o texto do resumo (ex: 2x P, 1x M)
+            const resumoTotal = Object.entries(totais).map(([tam, qtd]) => `${qtd}x ${tam}`).join(', ');
+
+            // Cálculo do valor total (R$ 45,00 por abadá)
+            const valorTotal = personCards.length * 45;
+            const valorFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Obtém data e hora atual formatada
+            const dataHora = new Date().toLocaleString('pt-BR');
+
+            // Gera um número de protocolo aleatório (Ex: OCN-837192)
+            const protocolo = 'OCN-' + Math.floor(100000 + Math.random() * 900000);
+
+            const mensagem = `Olá! Gostaria de confirmar os abadás.\n\n` +
+                             `*Protocolo:* ${protocolo}\n` +
+                             `*Responsável:* ${mainResponsible}\n` +
+                             `*Contato:* ${userContact}\n` +
+                             `*Comunicado a:* ${communicatedTo}\n\n` +
+                             `*PEDIDOS:*\n${listaPedidos}\n` +
+                             `*RESUMO TOTAL:* ${resumoTotal}\n` +
+                             `*Valor Total Estimado:* ${valorFormatado}\n\n` +
+                             `*Data do Pedido:* ${dataHora}`;
+            
+            // Cria o link e abre o WhatsApp
+            const linkWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensagem)}`;
+            
+            window.open(linkWhatsApp, '_blank');
+            
+            selectedInfo.innerHTML = `✅ Pedido ${protocolo} gerado! Redirecionando para o WhatsApp...`;
+            selectedInfo.classList.add('show');
+        });
+    </script>
+</body>
+</html>
