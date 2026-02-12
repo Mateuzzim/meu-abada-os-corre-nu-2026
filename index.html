@@ -654,7 +654,7 @@
             const totais = {};
 
             personCards.forEach((card, index) => {
-                const nome = card.querySelector('.name-input').value.toUpperCase();
+                const nome = card.querySelector('.name-input').value.toUpperCase().trim();
                 const tamanho = card.querySelector('input[name^="size_"]:checked').value;
                 const modelo = card.querySelector('input[name^="model_"]:checked').value;
                 const costura = card.querySelector('input[name^="sewing_"]:checked').value;
