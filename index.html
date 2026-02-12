@@ -322,19 +322,6 @@
     </style>
 </head>
 <body>
-    <!-- Modal de Verificação Inicial -->
-    <div id="accessModal" class="access-modal">
-        <div class="access-content">
-            <img src="https://i.pinimg.com/736x/b1/62/60/b16260c9b18d1e31de398c24a1203b29.jpg" alt="Logo" class="homer-img">
-            <h2>Abadá Os Corre Nu 2026</h2>
-            <p style="margin: 15px 0 25px; color: #666; font-size: 16px;">Confirme sua participação no grupo oficial para liberar o formulário de pedidos.</p>
-            <div class="access-buttons">
-                <button id="btnNo" class="submit-btn" style="background: #F56FA1; width: auto; padding: 12px 25px;">Não fui</button>
-                <button id="btnYes" class="submit-btn" style="background: #009DDC; width: auto; padding: 12px 25px;">Sim, fui aceito</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Modal de Confirmação do Pedido -->
     <div id="confirmModal" class="access-modal" style="display: none;">
         <div class="access-content" style="text-align: left; max-width: 500px;">
@@ -354,9 +341,19 @@
     <div class="container">
         <img src="https://i.pinimg.com/736x/b1/62/60/b16260c9b18d1e31de398c24a1203b29.jpg" alt="Logo" class="homer-img">
         <h1>Abadá Os Corre Nu 2026</h1>
-        <p class="subtitle">Selecione o tamanho perfeito para você</p>
+        
+        <!-- Área de Verificação (Substitui o Modal) -->
+        <div id="verificationSection">
+            <p class="subtitle" style="margin-bottom: 25px;">Confirme sua participação no grupo oficial para liberar o formulário.</p>
+            <div class="access-buttons" style="justify-content: center; margin-bottom: 10px;">
+                <button id="btnNo" class="submit-btn" style="background: #F56FA1; width: auto; padding: 12px 25px;">Não fui</button>
+                <button id="btnYes" class="submit-btn" style="background: #009DDC; width: auto; padding: 12px 25px;">Sim, fui aceito</button>
+            </div>
+        </div>
 
-        <form id="sizeForm" novalidate>
+        <div id="formSection" style="display: none;">
+            <p class="subtitle">Selecione o tamanho perfeito para você</p>
+            <form id="sizeForm" novalidate>
             <div class="personal-data">
                 <div class="input-group">
                     <label for="mainResponsible">Responsável Principal <span style="color: #dc3545;">*</span></label>
@@ -469,6 +466,7 @@
             
             <button type="submit" class="submit-btn">Confirmar Seleção</button>
         </form>
+        </div>
 
         <div id="selectedInfo" class="selected-info">
             <!-- Informações selecionadas serão exibidas aqui -->
@@ -476,9 +474,10 @@
     </div>
 
     <script>
-        // Lógica do Modal de Acesso
+        // Lógica da Verificação Inicial
         document.getElementById('btnYes').addEventListener('click', function() {
-            document.getElementById('accessModal').style.display = 'none';
+            document.getElementById('verificationSection').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
         });
 
         document.getElementById('btnNo').addEventListener('click', function() {
