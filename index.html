@@ -591,13 +591,11 @@
             removeBtn.textContent = 'Remover';
             removeBtn.onclick = function() {
                 newCard.remove();
-                saveFormData();
             };
             newCard.appendChild(removeBtn);
             
             container.appendChild(newCard);
             personCount++;
-            saveFormData();
         });
 
         document.getElementById('sizeForm').addEventListener('submit', function(e) {
@@ -719,92 +717,6 @@
             document.getElementById('btnSend').setAttribute('data-link', linkWhatsApp);
             document.getElementById('confirmModal').style.display = 'flex';
         });
-
-        // --- Persistência de Dados (LocalStorage) ---
-        
-        let isRestoring = false;
-
-        function saveFormData() {
-            if (isRestoring) return;
-
-            const mainResponsible = document.getElementById('mainResponsible').value;
-            const userContact = document.getElementById('userContact').value;
-            const communicatedTo = document.getElementById('communicatedTo').value;
-
-            const people = [];
-            document.querySelectorAll('.person-card').forEach(card => {
-                const name = card.querySelector('.name-input').value;
-                
-                const sizeInput = card.querySelector('input[name^="size_"]:checked');
-                const size = sizeInput ? sizeInput.value : null;
-
-                const modelInput = card.querySelector('input[name^="model_"]:checked');
-                const model = modelInput ? modelInput.value : null;
-
-                const sewingInput = card.querySelector('input[name^="sewing_"]:checked');
-                const sewing = sewingInput ? sewingInput.value : null;
-
-                people.push({ name, size, model, sewing });
-            });
-
-            const data = { mainResponsible, userContact, communicatedTo, people };
-            localStorage.setItem('abadaFormData', JSON.stringify(data));
-        }
-
-        function loadFormData() {
-            const saved = localStorage.getItem('abadaFormData');
-            if (!saved) return;
-
-            try {
-                isRestoring = true;
-                const data = JSON.parse(saved);
-                
-                if (data.mainResponsible) document.getElementById('mainResponsible').value = data.mainResponsible;
-                if (data.userContact) document.getElementById('userContact').value = data.userContact;
-                if (data.communicatedTo) document.getElementById('communicatedTo').value = data.communicatedTo;
-
-                if (data.people && Array.isArray(data.people)) {
-                    // Atualiza a primeira pessoa
-                    if (data.people.length > 0) {
-                        updateCard(document.querySelector('.person-card[data-index="0"]'), data.people[0]);
-                    }
-
-                    // Adiciona as demais
-                    for (let i = 1; i < data.people.length; i++) {
-                        document.getElementById('addPersonBtn').click();
-                        const cards = document.querySelectorAll('.person-card');
-                        updateCard(cards[cards.length - 1], data.people[i]);
-                    }
-                }
-            } catch (e) {
-                console.error("Erro ao carregar dados:", e);
-            } finally {
-                isRestoring = false;
-            }
-        }
-
-        function updateCard(card, personData) {
-            if (!card || !personData) return;
-            if (personData.name) card.querySelector('.name-input').value = personData.name;
-            
-            const index = card.getAttribute('data-index');
-            if (personData.size) checkRadio(card, `size_${index}`, personData.size);
-            if (personData.model) checkRadio(card, `model_${index}`, personData.model);
-            if (personData.sewing) checkRadio(card, `sewing_${index}`, personData.sewing);
-        }
-
-        function checkRadio(card, name, value) {
-            const radio = card.querySelector(`input[name="${name}"][value="${value}"]`);
-            if (radio) radio.checked = true;
-        }
-
-        // Event Listeners para salvar automaticamente
-        const form = document.getElementById('sizeForm');
-        form.addEventListener('input', saveFormData);
-        form.addEventListener('change', saveFormData);
-
-        // Carrega os dados ao iniciar
-        window.addEventListener('load', loadFormData);
     </script>
 </body>
 </html>
