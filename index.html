@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Seleção de Tamanho - Abadá</title>
+
+    <!-- Configuração da Prévia do Link (WhatsApp/Redes Sociais) -->
+    <meta property="og:title" content="🔒 Área Restrita - Bloco Os Corre Nu">
+    <meta property="og:description" content="Para acessar o formulário de pedidos, confirme se você já foi oficialmente aceito.">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="300">
+    <meta property="og:type" content="website">
+
     <style>
         * {
             margin: 0;
@@ -40,14 +49,9 @@
             background-image: radial-gradient(#fff 10%, transparent 10%), radial-gradient(#fff 10%, transparent 10%);
             background-size: 50px 50px;
             background-position: 0 0, 25px 25px;
-            height: 100vh;
             display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
             min-height: 100vh;
-            height: auto;
-            zoom: 80%;
         }
 
         .container {
@@ -55,9 +59,10 @@
             border-radius: 20px;
             border: 4px solid #000;
             box-shadow: 10px 10px 0px rgba(0,0,0,0.8);
-            padding: 40px;
+            padding: 20px;
             max-width: 500px;
             width: 100%;
+            margin: auto;
         }
 
         h1 {
@@ -72,7 +77,7 @@
         .subtitle {
             text-align: center;
             color: #666;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             font-size: 16px;
         }
 
@@ -95,7 +100,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px 5px;
+            padding: 5px;
             background: #fff;
             border: 2px solid #000;
             border-radius: 8px;
@@ -214,18 +219,18 @@
         }
 
         .personal-data {
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
         }
 
         .person-card {
             background: #fff;
             border: 2px solid #000;
             border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
+            padding: 15px;
+            margin-bottom: 15px;
             position: relative;
             box-shadow: 6px 6px 0px #FFD90F;
         }
@@ -233,7 +238,7 @@
         .person-title {
             font-size: 18px;
             color: #009DDC;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             font-weight: bold;
             text-transform: uppercase;
             display: flex;
@@ -336,6 +341,22 @@
         </div>
     </div>
 
+    <!-- Modal de Confirmação do Pedido -->
+    <div id="confirmModal" class="access-modal" style="display: none;">
+        <div class="access-content" style="text-align: left; max-width: 500px;">
+            <h2 style="text-align: center; margin-bottom: 15px;">📋 Conferir Pedido</h2>
+            
+            <div id="confirmSummary" style="background: #f8f9fa; padding: 15px; border-radius: 10px; border: 1px solid #ddd; max-height: 60vh; overflow-y: auto; margin-bottom: 20px; font-size: 14px;">
+                <!-- Conteúdo preenchido via JS -->
+            </div>
+
+            <div class="access-buttons">
+                <button id="btnEdit" class="submit-btn" style="background: #F56FA1; padding: 12px;">✏️ Corrigir</button>
+                <button id="btnSend" class="submit-btn" style="background: #009DDC; padding: 12px;">✅ Enviar WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <img src="https://upload.wikimedia.org/wikipedia/en/0/02/Homer_Simpson_2006.png" alt="Homer Simpson" class="homer-img">
         <h1>Abadá Os Corre Nu 2026</h1>
@@ -352,7 +373,7 @@
                     <input type="text" id="userContact" name="userContact" required placeholder="(DD) 99999-9999" maxlength="15">
                 </div>
                 <div class="input-group">
-                    <label for="communicatedTo">Qual organizador do bloco foi comunicado?</label>
+                    <label for="communicatedTo">Qual organizador do bloco foi comunicado? <span style="color: #F56FA1; font-weight: bold;">(Apenas Novos Membros)</span></label>
                     <input type="text" id="communicatedTo" name="communicatedTo" placeholder="Digite o nome de quem você avisou">
                 </div>
             </div>
@@ -361,7 +382,7 @@
                 <!-- Pessoa 1 (Padrão) -->
                 <div class="person-card" data-index="0">
                     <div class="person-title">ABADÁ 1</div>
-                    <div class="input-group" style="margin-bottom: 20px;">
+                    <div class="input-group" style="margin-bottom: 10px;">
                         <label>Nome da Pessoa</label>
                         <input type="text" class="name-input" required placeholder="Nome de quem vai usar">
                     </div>
@@ -407,6 +428,44 @@
                             <label for="sizeXXG_0" class="size-label">
                                 <span class="size-name">XXG</span>
                             </label>
+                        </div>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                        <div class="input-group">
+                            <label>Modelo</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                                <div class="size-option">
+                                    <input type="radio" name="model_0" id="modelComManga_0" value="Com Manga">
+                                    <label for="modelComManga_0" class="size-label">
+                                        <span class="size-name" style="font-size: 12px;">Com Manga</span>
+                                    </label>
+                                </div>
+                                <div class="size-option">
+                                    <input type="radio" name="model_0" id="modelSemManga_0" value="Sem Manga">
+                                    <label for="modelSemManga_0" class="size-label">
+                                        <span class="size-name" style="font-size: 12px;">Sem Manga</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Costura</label>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+                                <div class="size-option">
+                                    <input type="radio" name="sewing_0" id="sewingYes_0" value="Costurado">
+                                    <label for="sewingYes_0" class="size-label">
+                                        <span class="size-name" style="font-size: 12px;">Costurado</span>
+                                    </label>
+                                </div>
+                                <div class="size-option">
+                                    <input type="radio" name="sewing_0" id="sewingNo_0" value="Sem Costura">
+                                    <label for="sewingNo_0" class="size-label">
+                                        <span class="size-name" style="font-size: 12px;">Sem Costura</span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -455,6 +514,34 @@
             e.target.value = value;
         });
 
+        // Lógica do Modal de Confirmação
+        document.getElementById('btnEdit').addEventListener('click', function() {
+            document.getElementById('confirmModal').style.display = 'none';
+        });
+
+        document.getElementById('btnSend').addEventListener('click', function() {
+            const link = this.getAttribute('data-link');
+            if (link) {
+                // Bloqueia o botão para evitar duplo clique
+                this.disabled = true;
+                this.innerHTML = '⏳ Enviando...';
+
+                window.open(link, '_blank');
+                document.getElementById('confirmModal').style.display = 'none';
+                
+                const selectedInfo = document.getElementById('selectedInfo');
+                selectedInfo.innerHTML = `✅ Pedido enviado! Aguardando retorno no WhatsApp.`;
+                selectedInfo.classList.add('show');
+
+                // Bloqueia o botão principal do formulário para impedir reenvio do mesmo pedido
+                const mainSubmitBtn = document.querySelector('#sizeForm button[type="submit"]');
+                mainSubmitBtn.disabled = true;
+                mainSubmitBtn.textContent = 'Pedido Enviado ✅';
+                mainSubmitBtn.style.backgroundColor = '#ccc';
+                mainSubmitBtn.style.borderColor = '#999';
+            }
+        });
+
         // Lógica para adicionar novas pessoas
         let personCount = 1;
         
@@ -477,11 +564,17 @@
             const radios = newCard.querySelectorAll('input[type="radio"]');
             
             radios.forEach((radio) => {
-                const oldId = radio.id.split('_')[0]; // Pega 'sizeP'
-                const newId = `${oldId}_${newIndex}`;
+                const idParts = radio.id.split('_');
+                const idPrefix = idParts[0]; // Pega 'sizeP' ou 'modelComManga'
+                const newId = `${idPrefix}_${newIndex}`;
+                
+                const nameParts = radio.name.split('_');
+                const namePrefix = nameParts[0]; // Pega 'size' ou 'model'
                 
                 radio.id = newId;
-                radio.name = `size_${newIndex}`;
+                radio.name = `${namePrefix}_${newIndex}`;
+                
+                // Reseta a seleção para que venha sem marcação
                 radio.checked = false;
                 
                 // Atualiza o label correspondente (o label é o próximo elemento após o input)
@@ -498,11 +591,13 @@
             removeBtn.textContent = 'Remover';
             removeBtn.onclick = function() {
                 newCard.remove();
+                saveFormData();
             };
             newCard.appendChild(removeBtn);
             
             container.appendChild(newCard);
             personCount++;
+            saveFormData();
         });
 
         document.getElementById('sizeForm').addEventListener('submit', function(e) {
@@ -529,11 +624,15 @@
                 return;
             }
 
-            // Validação simples: verifica se todos têm tamanho selecionado
-            const allSelected = Array.from(personCards).every(card => card.querySelector('input[type="radio"]:checked'));
+            // Validação simples: verifica se todos têm tamanho, modelo e costura selecionados
+            const allSelected = Array.from(personCards).every(card => 
+                card.querySelector('input[name^="size_"]:checked') && 
+                card.querySelector('input[name^="model_"]:checked') &&
+                card.querySelector('input[name^="sewing_"]:checked')
+            );
             
             if (!allSelected) {
-                selectedInfo.innerHTML = '⚠️ Por favor, selecione o tamanho para todas as pessoas.';
+                selectedInfo.innerHTML = '⚠️ Por favor, selecione o tamanho, modelo e costura para todas as pessoas.';
                 selectedInfo.classList.add('show');
                 return;
             }
@@ -544,17 +643,36 @@
             
             // Monta a lista de pedidos
             let listaPedidos = '';
+            let htmlResumo = `
+                <p><strong>Responsável:</strong> ${mainResponsible}</p>
+                <p><strong>Contato:</strong> ${userContact}</p>
+                ${communicatedTo ? `<p><strong>Comunicado a:</strong> ${communicatedTo}</p>` : ''}
+                <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ccc;">
+                <p><strong>Itens do Pedido:</strong></p>
+                <ul style="list-style: none; padding-left: 0;">
+            `;
             const totais = {};
 
             personCards.forEach((card, index) => {
                 const nome = card.querySelector('.name-input').value.toUpperCase();
-                const tamanho = card.querySelector('input[type="radio"]:checked').value;
+                const tamanho = card.querySelector('input[name^="size_"]:checked').value;
+                const modelo = card.querySelector('input[name^="model_"]:checked').value;
+                const costura = card.querySelector('input[name^="sewing_"]:checked').value;
                 
-                listaPedidos += ` *${index + 1}. ${nome}* - Tamanho: ${tamanho}\n`;
+                listaPedidos += `*${index + 1}. ${nome}*\n   └ ${tamanho} | ${modelo} | ${costura}\n\n`;
+                
+                htmlResumo += `
+                    <li style="margin-bottom: 8px; border-bottom: 1px dashed #eee; padding-bottom: 8px;">
+                        <strong>${index + 1}. ${nome}</strong><br>
+                        <span style="color: #555;">${tamanho} • ${modelo} • ${costura}</span>
+                    </li>`;
                 
                 // Contabiliza os tamanhos para o resumo
-                totais[tamanho] = (totais[tamanho] || 0) + 1;
+                const key = `${tamanho} (${modelo} - ${costura})`;
+                totais[key] = (totais[key] || 0) + 1;
             });
+            
+            htmlResumo += `</ul>`;
 
             // Cria o texto do resumo (ex: 2x P, 1x M)
             const resumoTotal = Object.entries(totais).map(([tam, qtd]) => `${qtd}x ${tam}`).join(', ');
@@ -563,30 +681,130 @@
             const valorTotal = personCards.length * 45;
             const valorFormatado = valorTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+            htmlResumo += `
+                <hr style="margin: 10px 0; border: 0; border-top: 1px solid #ccc;">
+                <p style="text-align: right; font-size: 1.2em; font-weight: bold; color: #009DDC;">Total: ${valorFormatado}</p>
+            `;
+
             // Obtém data e hora atual formatada
             const dataHora = new Date().toLocaleString('pt-BR');
 
             // Gera um número de protocolo aleatório (Ex: OCN-837192)
             const protocolo = 'OCN-' + Math.floor(100000 + Math.random() * 900000);
 
-            const mensagem = `Olá! Gostaria de confirmar os abadás.\n\n` +
-                             `*Protocolo:* ${protocolo}\n` +
-                             `*Responsável:* ${mainResponsible}\n` +
-                             `*Contato:* ${userContact}\n` +
-                             `*Comunicado a:* ${communicatedTo}\n\n` +
-                             `*PEDIDOS:*\n${listaPedidos}\n` +
-                             `*RESUMO TOTAL:* ${resumoTotal}\n` +
-                             `*Valor Total Estimado:* ${valorFormatado}\n\n` +
-                             `*Data do Pedido:* ${dataHora}`;
+            const mensagem = `*NOVO PEDIDO - ABADÁ 2026*\n\n`+
+                             `*Protocolo:* ${protocolo}\n`+
+                             `*Data:* ${dataHora}\n\n`+
+                             `*DADOS DO RESPONSÁVEL*\n`+
+                             `*Nome:* ${mainResponsible}\n` +
+                             `*Zap:* ${userContact}\n` +
+                             (communicatedTo ? `*Avisou a:* ${communicatedTo}\n` : '') +
+                             `\n*DETALHES DO PEDIDO*\n`+
+                             `${listaPedidos}` +
+                             `*RESUMO FINAL*\n`+
+                             `*Qtd:* ${resumoTotal}\n`+
+                             `*VALOR TOTAL: ${valorFormatado}*\n\n`+
+                             `_Aguardo a confirmação!_`;
             
             // Cria o link e abre o WhatsApp
             const linkWhatsApp = `https://wa.me/${numeroDestino}?text=${encodeURIComponent(mensagem)}`;
             
-            window.open(linkWhatsApp, '_blank');
+            // Reseta o botão de envio do modal (caso tenha sido usado antes)
+            const btnSend = document.getElementById('btnSend');
+            btnSend.disabled = false;
+            btnSend.innerHTML = '✅ Enviar WhatsApp';
             
-            selectedInfo.innerHTML = `✅ Pedido ${protocolo} gerado! Redirecionando para o WhatsApp...`;
-            selectedInfo.classList.add('show');
+            // Preenche o modal e exibe
+            document.getElementById('confirmSummary').innerHTML = htmlResumo;
+            document.getElementById('btnSend').setAttribute('data-link', linkWhatsApp);
+            document.getElementById('confirmModal').style.display = 'flex';
         });
+
+        // --- Persistência de Dados (LocalStorage) ---
+        
+        let isRestoring = false;
+
+        function saveFormData() {
+            if (isRestoring) return;
+
+            const mainResponsible = document.getElementById('mainResponsible').value;
+            const userContact = document.getElementById('userContact').value;
+            const communicatedTo = document.getElementById('communicatedTo').value;
+
+            const people = [];
+            document.querySelectorAll('.person-card').forEach(card => {
+                const name = card.querySelector('.name-input').value;
+                
+                const sizeInput = card.querySelector('input[name^="size_"]:checked');
+                const size = sizeInput ? sizeInput.value : null;
+
+                const modelInput = card.querySelector('input[name^="model_"]:checked');
+                const model = modelInput ? modelInput.value : null;
+
+                const sewingInput = card.querySelector('input[name^="sewing_"]:checked');
+                const sewing = sewingInput ? sewingInput.value : null;
+
+                people.push({ name, size, model, sewing });
+            });
+
+            const data = { mainResponsible, userContact, communicatedTo, people };
+            localStorage.setItem('abadaFormData', JSON.stringify(data));
+        }
+
+        function loadFormData() {
+            const saved = localStorage.getItem('abadaFormData');
+            if (!saved) return;
+
+            try {
+                isRestoring = true;
+                const data = JSON.parse(saved);
+                
+                if (data.mainResponsible) document.getElementById('mainResponsible').value = data.mainResponsible;
+                if (data.userContact) document.getElementById('userContact').value = data.userContact;
+                if (data.communicatedTo) document.getElementById('communicatedTo').value = data.communicatedTo;
+
+                if (data.people && Array.isArray(data.people)) {
+                    // Atualiza a primeira pessoa
+                    if (data.people.length > 0) {
+                        updateCard(document.querySelector('.person-card[data-index="0"]'), data.people[0]);
+                    }
+
+                    // Adiciona as demais
+                    for (let i = 1; i < data.people.length; i++) {
+                        document.getElementById('addPersonBtn').click();
+                        const cards = document.querySelectorAll('.person-card');
+                        updateCard(cards[cards.length - 1], data.people[i]);
+                    }
+                }
+            } catch (e) {
+                console.error("Erro ao carregar dados:", e);
+            } finally {
+                isRestoring = false;
+            }
+        }
+
+        function updateCard(card, personData) {
+            if (!card || !personData) return;
+            if (personData.name) card.querySelector('.name-input').value = personData.name;
+            
+            const index = card.getAttribute('data-index');
+            if (personData.size) checkRadio(card, `size_${index}`, personData.size);
+            if (personData.model) checkRadio(card, `model_${index}`, personData.model);
+            if (personData.sewing) checkRadio(card, `sewing_${index}`, personData.sewing);
+        }
+
+        function checkRadio(card, name, value) {
+            const radio = card.querySelector(`input[name="${name}"][value="${value}"]`);
+            if (radio) radio.checked = true;
+        }
+
+        // Event Listeners para salvar automaticamente
+        const form = document.getElementById('sizeForm');
+        form.addEventListener('input', saveFormData);
+        form.addEventListener('change', saveFormData);
+
+        // Carrega os dados ao iniciar
+        window.addEventListener('load', loadFormData);
     </script>
 </body>
 </html>
